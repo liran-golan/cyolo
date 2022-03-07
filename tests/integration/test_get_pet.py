@@ -23,12 +23,14 @@ def test_get_pet_by_status():
 
     res_get = client.get('/pet/findByStatus?status=available')
     data_get = res_get.json()
-    how_many_pets_available_in_store = 0
-    for i in range(len(data_get)):
-        if data_get[i]['status'] == 'available':
-            how_many_pets_available_in_store += 1
+    available_pets = 0
+
+    for pet in data_get:
+        assert_that(pet['status']).is_equal_to('available')
+        available_pets += 1
+
     assert_that(res_get.status_code).is_equal_to(200)
-    assert_that(how_many_pets_available_in_store).is_greater_than(0)
+    assert_that(available_pets).is_greater_than(0)
 
 
 ##################### same validation for status pending/sold #######################################
